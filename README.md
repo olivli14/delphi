@@ -19,13 +19,11 @@ backend/                FastAPI pipeline (Modules 1–4)
 
 api/index.py            Vercel serverless entry; re-exports the FastAPI app
 
-frontend/               Next.js 14 dashboard (Tailwind + Recharts, dark theme)
-  src/app/page.tsx      Single-page dashboard, fetches /api/optimize
-  src/app/components/   Header, KPI cards, four charts, schedule table
-  public/               Bundled seed optimisation result for first-paint
+src/app/page.tsx        Next.js 14 dashboard (Tailwind + Recharts, dark theme)
+src/app/components/     Header, KPI cards, four charts, schedule table
+public/                 Bundled seed optimisation result for first-paint
 
-vercel.json             Backend deployment (Python serverless)
-frontend/vercel.json    Frontend deployment (Next.js)
+vercel.json             Single-project deployment (Next.js + Python /api)
 ```
 
 ## Local development
@@ -48,8 +46,6 @@ uvicorn backend.main:app --reload --port 8000
 
 ### Frontend
 ```bash
-cd frontend
-cp .env.example .env.local        # set NEXT_PUBLIC_API_BASE if backend is remote
 npm install
 npm run dev
 ```
@@ -57,30 +53,21 @@ npm run dev
 Open http://localhost:3000. The dashboard renders immediately from
 `/seed_optimization.json`. Click **Run Optimization** to call the live API.
 
+For local full-stack dev, `vercel dev` from the repo root serves Next.js and
+the Python `/api` function together on a single port.
+
 ## Deploying to Vercel
 
-The backend and frontend are deployed as **two Vercel projects** sharing this
-repository. The FastAPI app runs as a Python serverless function and the
-Next.js app proxies `/api/*` to it via `NEXT_PUBLIC_API_BASE`.
-
-### Project 1 — Backend (FastAPI)
+Single Vercel project. Next.js handles all routes by default; `vercel.json`
+rewrites `/api/*` to `api/index.py` so the FastAPI app handles those.
 
 1. `vercel link` from the repository root.
-2. Choose **/** as the root directory.
-3. Vercel auto-detects `vercel.json`. The Python runtime picks up `requirements.txt`.
-4. Add environment variable `ENTSOE_API_KEY` (optional — without it the
+2. Vercel auto-detects Next.js and the Python runtime picks up `requirements.txt`.
+3. Add environment variable `ENTSOE_API_KEY` (optional — without it the
    ingestion falls back to flagged synthetic data).
-5. Deploy. Note the deployment URL, e.g. `https://gr-battery-api.vercel.app`.
-
-### Project 2 — Frontend (Next.js)
-
-1. `vercel link` again, but choose **frontend/** as the root directory.
-2. Add environment variable
-   `NEXT_PUBLIC_API_BASE=https://gr-battery-api.vercel.app`
-   so the Next.js rewrite forwards `/api/*` to the backend project.
-3. Re-pre-compute the seed if needed and copy
-   `backend/data/seed_optimization.json` to `frontend/public/seed_optimization.json`.
-4. Deploy.
+4. Re-pre-compute the seed if needed and copy
+   `backend/data/seed_optimization.json` to `public/seed_optimization.json`.
+5. Deploy.
 
 ## Environment variables
 
@@ -89,7 +76,6 @@ See [`.env.example`](./.env.example).
 | Variable                | Used by   | Purpose                                         |
 | ----------------------- | --------- | ----------------------------------------------- |
 | `ENTSOE_API_KEY`        | backend   | Live Greek DAM price ingestion                  |
-| `NEXT_PUBLIC_API_BASE`  | frontend  | URL of the deployed backend project             |
 
 ## Notes on data scarcity
 
