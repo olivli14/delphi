@@ -25,9 +25,11 @@ from . import ingest
 try:
     import lightgbm as lgb
     HAVE_LGBM = True
-except Exception:
+    LGBM_ERROR = ""
+except Exception as _e:
     lgb = None  # type: ignore
     HAVE_LGBM = False
+    LGBM_ERROR = f"{type(_e).__name__}: {_e}"
 
 
 @dataclass
@@ -206,7 +208,11 @@ def forecast_for_day(target_day: datetime,
         model_name = "lightgbm-quantile"
     else:
         p10, p50, p90 = _quantile_residual_fallback(X_train, y_train, X_target)
-        model_name = "ridge+empirical-quantile"
+        if not HAVE_LGBM:
+            reason = f"lgbm unavailable — {LGBM_ERROR}"
+        else:
+            reason = f"insufficient training rows ({X_train.shape[0]}<200)"
+        model_name = f"ridge+empirical-quantile ({reason})"
 
     # Enforce monotonicity p10 <= p50 <= p90 — the quantile regressors are
     # trained independently so a small amount of crossing is possible.
