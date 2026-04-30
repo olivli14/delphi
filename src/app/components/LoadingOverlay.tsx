@@ -11,7 +11,7 @@ interface Step {
 const STEPS: Step[] = [
   {
     label: "Connecting to ENTSO-E Transparency Platform",
-    detail: "Authenticating · opening DAM stream for HEnEx (Greek market)",
+    detail: "Trying live Greek DAM fetch first; synthetic fallback stays available",
     ms: 700,
   },
   {
@@ -25,13 +25,13 @@ const STEPS: Step[] = [
     ms: 600,
   },
   {
-    label: "Cross-referencing analogue markets",
-    detail: "CAISO · OMIE · ENTSO-E DE — enriches the multi-market training set",
+    label: "Refreshing reference weather feeds",
+    detail: "Athens plus CAISO / OMIE / ENTSO-E DE context series for provenance",
     ms: 800,
   },
   {
     label: "Training quantile price forecaster",
-    detail: "Gradient-boosted regressor → p10 / p50 / p90 confidence bands",
+    detail: "Uses the implemented backend model path to produce p10 / p50 / p90",
     ms: 900,
   },
   {
@@ -127,7 +127,7 @@ export default function LoadingOverlay({ open, finished }: Props) {
         </div>
 
         <p className="mt-1 text-xs text-slate-600 font-mono">
-          Live pipeline · Athens (Greece) · 96 × 15-minute delivery periods
+          Recompute request · Athens (Greece) · 96 × 15-minute delivery periods
         </p>
 
         <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-navy-800">

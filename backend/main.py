@@ -51,6 +51,7 @@ def _run_pipeline(target_day: datetime) -> dict:
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "target_day": target_day.date().isoformat(),
+        "run_type": "computed",
         "ingestion": ingestion,
         "forecast": forecast.to_dict(fc),
         "thermal": thermal.to_dict(spec, constraints),

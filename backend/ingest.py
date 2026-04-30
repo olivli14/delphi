@@ -1,9 +1,9 @@
 """
 Module 1 — Data Ingestion
 
-Fetches DAM prices (Greek HEnEx via ENTSO-E Transparency proxy when available),
-weather data from Open-Meteo for Greece and analogue markets (CAISO, OMIE,
-ENTSO-E), and persists everything in SQLite with source/timestamp provenance.
+Fetches Greek DAM prices (via ENTSO-E when available), weather data from
+Open-Meteo for Athens plus several reference geographies (CAISO, OMIE,
+Germany), and persists everything in SQLite with source/timestamp provenance.
 
 Where live data is unavailable we generate realistic synthetic series with the
 same statistical properties as the published market data and flag every row
@@ -50,7 +50,7 @@ DB_PATH = DATA_DIR / "market.db"
 # Athens, Greece — used for the Greek battery's local weather forecast.
 GREECE_LAT, GREECE_LON = 37.9838, 23.7275
 
-# Analogue markets used to enrich the multi-market training set.
+# Reference geographies displayed in the UI and ingested for provenance.
 ANALOGUE_MARKETS = {
     "CAISO": (36.7783, -119.4179),    # California
     "OMIE": (40.4168, -3.7038),       # Spain
@@ -448,8 +448,8 @@ def load_weather_for_day(target_day: datetime,
 
 def load_history_for_training(days: int = 60) -> list[dict]:
     """
-    Returns up to `days` of joined DAM + Athens weather rows for use as a
-    training set. When live data is unavailable each historical day is built
+    Returns up to `days` of joined Greek DAM + Athens weather rows for use as
+    a training set. When live data is unavailable each historical day is built
     synthetically with deterministic seeds so re-runs are reproducible.
     """
     today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0,

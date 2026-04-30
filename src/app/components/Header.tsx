@@ -5,6 +5,7 @@ import Link from "next/link";
 interface HeaderProps {
   generatedAt: string;
   targetDay: string;
+  runTypeLabel: string;
   loading: boolean;
   onRun: () => void;
 }
@@ -26,6 +27,7 @@ const fmtTs = (iso: string) => {
 export default function Header({
   generatedAt,
   targetDay,
+  runTypeLabel,
   loading,
   onRun,
 }: HeaderProps) {
@@ -43,7 +45,8 @@ export default function Header({
             Delphi Prediction
           </h1>
           <p className="text-xs text-slate-600 font-mono">
-            Delivery day {targetDay} · last updated {fmtTs(generatedAt)}
+            Delivery day {targetDay} · {runTypeLabel} · last updated{" "}
+            {fmtTs(generatedAt)}
           </p>
         </div>
       </div>

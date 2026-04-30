@@ -1,10 +1,13 @@
 """
 Module 2 — Probabilistic Price Forecasting
 
-Trains a gradient-boosted quantile regression model (scikit-learn's
-HistGradientBoostingRegressor with `loss="quantile"`) on the multi-market
-dataset assembled by the ingestion module and produces a 96-period
-(15-minute) forecast with 10th, 50th and 90th percentile bands.
+Trains a quantile regression forecaster on the dataset assembled by the
+ingestion module and produces a 96-period (15-minute) forecast with 10th,
+50th and 90th percentile bands.
+
+Today that dataset is Greek DAM history joined with Athens weather features.
+The primary model path uses scikit-learn's HistGradientBoostingRegressor with
+`loss="quantile"`.
 
 If scikit-learn is not installed the module falls back to a ridge
 regression with empirical residual quantiles stratified by period-of-day —
@@ -149,7 +152,7 @@ def _train_hgb_quantile(X: np.ndarray, y: np.ndarray, alpha: float):
 def _quantile_residual_fallback(X: np.ndarray, y: np.ndarray,
                                 X_target: np.ndarray):
     """
-    Lightweight fallback when LightGBM is not available.
+    Lightweight fallback when HistGradientBoostingRegressor is not available.
 
     We:
       1. Fit a closed-form ridge regression on the training set to get a point
