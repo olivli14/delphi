@@ -126,15 +126,15 @@ export default function DataMap() {
               height="18"
               patternUnits="userSpaceOnUse"
             >
-              <circle cx="1" cy="1" r="0.6" fill="#1c2c5e" />
+              <circle cx="1" cy="1" r="0.6" fill="#1f7e8a" />
             </pattern>
             <radialGradient id="primaryGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+              <stop offset="0%" stopColor="#ffecd1" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#ffecd1" stopOpacity="0" />
             </radialGradient>
             <radialGradient id="analogueGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+              <stop offset="0%" stopColor="#ff7d00" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#ff7d00" stopOpacity="0" />
             </radialGradient>
           </defs>
 
@@ -147,7 +147,7 @@ export default function DataMap() {
               x2={W}
               y1={y}
               y2={y}
-              stroke="#152045"
+              stroke="#15616d"
               strokeDasharray="2 6"
               strokeWidth="1"
             />
@@ -159,7 +159,7 @@ export default function DataMap() {
               y2={H}
               x1={x}
               x2={x}
-              stroke="#152045"
+              stroke="#15616d"
               strokeDasharray="2 6"
               strokeWidth="1"
             />
@@ -169,8 +169,8 @@ export default function DataMap() {
             <path
               key={i}
               d={d}
-              fill="#0f1733"
-              stroke="#1c2c5e"
+              fill="#0a3a48"
+              stroke="#1f7e8a"
               strokeWidth="1.2"
               strokeLinejoin="round"
             />
@@ -185,7 +185,7 @@ export default function DataMap() {
                 y1={ay}
                 x2={x}
                 y2={y}
-                stroke="#22d3ee"
+                stroke="#ffecd1"
                 strokeOpacity="0.45"
                 strokeWidth="1"
                 strokeDasharray="4 4"
@@ -197,7 +197,7 @@ export default function DataMap() {
             const [x, y] = project(c.lon, c.lat);
             const isPrimary = c.role === "primary";
             const r = isPrimary ? 6 : 4.5;
-            const fill = isPrimary ? "#22d3ee" : "#3b82f6";
+            const fill = isPrimary ? "#ffecd1" : "#ff7d00";
             const glowFill = isPrimary
               ? "url(#primaryGlow)"
               : "url(#analogueGlow)";
@@ -216,7 +216,7 @@ export default function DataMap() {
                   cy={y}
                   r={r}
                   fill={fill}
-                  stroke="#0a1024"
+                  stroke="#03212e"
                   strokeWidth="1.5"
                 />
                 {isPrimary && (
@@ -225,7 +225,7 @@ export default function DataMap() {
                     cy={y}
                     r={r + 4}
                     fill="none"
-                    stroke="#22d3ee"
+                    stroke="#ffecd1"
                     strokeWidth="1"
                     opacity="0.7"
                   >
@@ -247,11 +247,11 @@ export default function DataMap() {
                   x={x + labelDx}
                   y={y + 4}
                   textAnchor={labelAnchor}
-                  fill="#e2e8f0"
+                  fill="#ffecd1"
                   fontSize="11"
                   fontFamily="JetBrains Mono, ui-monospace, monospace"
                   style={{ paintOrder: "stroke" }}
-                  stroke="#070b1a"
+                  stroke="#001524"
                   strokeWidth="3"
                   strokeLinejoin="round"
                 >

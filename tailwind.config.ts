@@ -6,18 +6,18 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          950: "#070b1a",
-          900: "#0a1024",
-          800: "#0f1733",
-          700: "#152045",
-          600: "#1c2c5e",
+          950: "#001524",
+          900: "#03212e",
+          800: "#0a3a48",
+          700: "#15616d",
+          600: "#1f7e8a",
         },
         accent: {
-          electric: "#3b82f6",
-          neon: "#22d3ee",
-          green: "#34d399",
-          amber: "#fbbf24",
-          rose: "#fb7185",
+          electric: "#ff7d00",
+          neon: "#ffecd1",
+          green: "#3fb8c4",
+          amber: "#ffecd1",
+          rose: "#78290f",
         },
       },
       fontFamily: {
@@ -25,7 +25,7 @@ const config: Config = {
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 24px -8px rgba(59, 130, 246, 0.55)",
+        glow: "0 0 24px -8px rgba(255, 125, 0, 0.55)",
       },
     },
   },

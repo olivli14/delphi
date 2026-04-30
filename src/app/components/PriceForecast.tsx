@@ -70,27 +70,27 @@ export default function PriceForecast({ forecast }: Props) {
           <ComposedChart data={data} margin={{ top: 10, left: -10, right: 10, bottom: 0 }}>
             <defs>
               <linearGradient id="bandFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#ff7d00" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#ff7d00" stopOpacity={0.05} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="#152045" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#15616d" strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               interval={11}
             />
             <YAxis
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               tickFormatter={(v) => `€${v.toFixed(0)}`}
               domain={["auto", "auto"]}
             />
             <Tooltip
               contentStyle={{
-                background: "#0a1024",
-                border: "1px solid #1c2c5e",
+                background: "#03212e",
+                border: "1px solid #1f7e8a",
                 borderRadius: 12,
-                color: "#e2e8f0",
+                color: "#ffecd1",
                 fontSize: 12,
               }}
               formatter={(value: number, name: string) => [
@@ -98,7 +98,7 @@ export default function PriceForecast({ forecast }: Props) {
                 name,
               ]}
             />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: "#a89a85", fontSize: 12 }} />
             <Area
               type="monotone"
               dataKey="bandLow"
@@ -120,7 +120,7 @@ export default function PriceForecast({ forecast }: Props) {
             <Line
               type="monotone"
               dataKey="p50"
-              stroke="#22d3ee"
+              stroke="#ffecd1"
               strokeWidth={2}
               dot={false}
               name="p50 (median)"

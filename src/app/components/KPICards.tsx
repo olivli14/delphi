@@ -43,25 +43,25 @@ export default function KPICards({
         label="Total Revenue"
         value={formatEur(totalRevenue, 0)}
         hint="Discharge − charge × DAM price"
-        accent="linear-gradient(90deg, #3b82f6, #22d3ee)"
+        accent="linear-gradient(90deg, #ff7d00, #ffecd1)"
       />
       <Card
         label="Net P&L"
         value={formatEur(netPnl, 0)}
         hint="After degradation cost"
-        accent="linear-gradient(90deg, #22d3ee, #34d399)"
+        accent="linear-gradient(90deg, #ffecd1, #3fb8c4)"
       />
       <Card
         label="Cycles"
         value={cycles.toFixed(2)}
         hint="Equivalent full cycles / day"
-        accent="linear-gradient(90deg, #34d399, #fbbf24)"
+        accent="linear-gradient(90deg, #3fb8c4, #ffecd1)"
       />
       <Card
         label="Degradation"
         value={formatEur(totalDegradation, 0)}
         hint="€/MWh throughput cost"
-        accent="linear-gradient(90deg, #fbbf24, #fb7185)"
+        accent="linear-gradient(90deg, #ff7d00, #78290f)"
       />
     </section>
   );

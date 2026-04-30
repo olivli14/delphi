@@ -100,22 +100,22 @@ export default function ScenarioChart({ scenarios }: Props) {
       <div className="mt-3 h-72">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, left: -10, right: 10, bottom: 0 }}>
-            <CartesianGrid stroke="#152045" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#15616d" strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               interval={11}
             />
             <YAxis
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               tickFormatter={(v) => `€${v.toFixed(0)}`}
             />
             <Tooltip
               contentStyle={{
-                background: "#0a1024",
-                border: "1px solid #1c2c5e",
+                background: "#03212e",
+                border: "1px solid #1f7e8a",
                 borderRadius: 12,
-                color: "#e2e8f0",
+                color: "#ffecd1",
                 fontSize: 12,
               }}
               formatter={(value: number, name: string) => [
@@ -123,11 +123,11 @@ export default function ScenarioChart({ scenarios }: Props) {
                 name,
               ]}
             />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: "#a89a85", fontSize: 12 }} />
             <Line
               type="monotone"
               dataKey="p10"
-              stroke="#fb7185"
+              stroke="#78290f"
               strokeWidth={2}
               dot={false}
               name="p10"
@@ -136,7 +136,7 @@ export default function ScenarioChart({ scenarios }: Props) {
             <Line
               type="monotone"
               dataKey="p50"
-              stroke="#22d3ee"
+              stroke="#ffecd1"
               strokeWidth={2}
               dot={false}
               name="p50"
@@ -145,7 +145,7 @@ export default function ScenarioChart({ scenarios }: Props) {
             <Line
               type="monotone"
               dataKey="p90"
-              stroke="#34d399"
+              stroke="#3fb8c4"
               strokeWidth={2}
               dot={false}
               name="p90"

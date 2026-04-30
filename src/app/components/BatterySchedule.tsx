@@ -57,30 +57,30 @@ export default function BatterySchedule({ schedule, capacityMwh }: Props) {
       <div className="mt-3 h-72">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data} margin={{ top: 10, left: -10, right: 10, bottom: 0 }}>
-            <CartesianGrid stroke="#152045" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#15616d" strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               interval={11}
             />
             <YAxis
               yAxisId="power"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               tickFormatter={(v) => `${v} MW`}
             />
             <YAxis
               yAxisId="soc"
               orientation="right"
               domain={[0, 100]}
-              tick={{ fill: "#fbbf24", fontSize: 11 }}
+              tick={{ fill: "#ffecd1", fontSize: 11 }}
               tickFormatter={(v) => `${v}%`}
             />
             <Tooltip
               contentStyle={{
-                background: "#0a1024",
-                border: "1px solid #1c2c5e",
+                background: "#03212e",
+                border: "1px solid #1f7e8a",
                 borderRadius: 12,
-                color: "#e2e8f0",
+                color: "#ffecd1",
                 fontSize: 12,
               }}
               formatter={(value: number, name: string) => {
@@ -89,18 +89,18 @@ export default function BatterySchedule({ schedule, capacityMwh }: Props) {
                 return [`${Math.abs(Number(value)).toFixed(2)} MW`, name];
               }}
             />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: "#a89a85", fontSize: 12 }} />
             <Bar
               yAxisId="power"
               dataKey="charge"
-              fill="#3b82f6"
+              fill="#ff7d00"
               name="Charge"
               isAnimationActive={false}
             />
             <Bar
               yAxisId="power"
               dataKey="discharge"
-              fill="#34d399"
+              fill="#3fb8c4"
               name="Discharge"
               isAnimationActive={false}
             />
@@ -108,7 +108,7 @@ export default function BatterySchedule({ schedule, capacityMwh }: Props) {
               yAxisId="soc"
               type="monotone"
               dataKey="soc"
-              stroke="#fbbf24"
+              stroke="#ffecd1"
               strokeWidth={2}
               dot={false}
               name="SoC"

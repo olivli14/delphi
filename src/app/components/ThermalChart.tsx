@@ -55,29 +55,29 @@ export default function ThermalChart({ periods }: Props) {
       <div className="mt-3 h-72">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data} margin={{ top: 10, left: -10, right: 10, bottom: 0 }}>
-            <CartesianGrid stroke="#152045" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#15616d" strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               interval={11}
             />
             <YAxis
               yAxisId="mw"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#a89a85", fontSize: 11 }}
               tickFormatter={(v) => `${v} MW`}
             />
             <YAxis
               yAxisId="temp"
               orientation="right"
-              tick={{ fill: "#fb7185", fontSize: 11 }}
+              tick={{ fill: "#78290f", fontSize: 11 }}
               tickFormatter={(v) => `${v}°C`}
             />
             <Tooltip
               contentStyle={{
-                background: "#0a1024",
-                border: "1px solid #1c2c5e",
+                background: "#03212e",
+                border: "1px solid #1f7e8a",
                 borderRadius: 12,
-                color: "#e2e8f0",
+                color: "#ffecd1",
                 fontSize: 12,
               }}
               formatter={(value: number, name: string) => {
@@ -86,12 +86,12 @@ export default function ThermalChart({ periods }: Props) {
                 return [`${Number(value).toFixed(2)} MW`, name];
               }}
             />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: "#a89a85", fontSize: 12 }} />
             <Line
               yAxisId="mw"
               type="monotone"
               dataKey="maxCharge"
-              stroke="#3b82f6"
+              stroke="#ff7d00"
               strokeWidth={2}
               dot={false}
               name="Max charge"
@@ -101,7 +101,7 @@ export default function ThermalChart({ periods }: Props) {
               yAxisId="mw"
               type="monotone"
               dataKey="maxDischarge"
-              stroke="#34d399"
+              stroke="#3fb8c4"
               strokeWidth={2}
               dot={false}
               strokeDasharray="4 3"
@@ -112,7 +112,7 @@ export default function ThermalChart({ periods }: Props) {
               yAxisId="temp"
               type="monotone"
               dataKey="temp"
-              stroke="#fb7185"
+              stroke="#78290f"
               strokeWidth={2}
               dot={false}
               name="Temperature"

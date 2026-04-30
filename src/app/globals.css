@@ -7,8 +7,8 @@
 }
 
 html, body {
-  background: radial-gradient(circle at 20% 0%, #0f1733 0%, #070b1a 60%);
-  color: #e2e8f0;
+  background: radial-gradient(circle at 20% 0%, #0a3a48 0%, #001524 60%);
+  color: #ffecd1;
   min-height: 100vh;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -34,7 +34,7 @@ html, body {
   height: 8px;
 }
 .scroll-soft::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.35);
+  background: rgba(255, 125, 0, 0.35);
   border-radius: 9999px;
 }
 .scroll-soft::-webkit-scrollbar-track {
