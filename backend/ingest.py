@@ -16,6 +16,7 @@ import json
 import math
 import os
 import random
+import shutil
 import sqlite3
 from contextlib import closing
 from dataclasses import dataclass
@@ -28,8 +29,22 @@ except Exception:  # pragma: no cover - requests is in requirements.txt
     requests = None  # type: ignore
 
 
-DATA_DIR = Path(__file__).parent / "data"
-DATA_DIR.mkdir(parents=True, exist_ok=True)
+BUNDLED_DATA_DIR = Path(__file__).parent / "data"
+
+# On Vercel (and other read-only serverless filesystems) the deploy directory
+# can't be written to, so SQLite needs to live under /tmp. We copy the bundled
+# market.db over on first import so historical rows are still available.
+if os.environ.get("VERCEL") or not os.access(BUNDLED_DATA_DIR, os.W_OK):
+    DATA_DIR = Path("/tmp/greek-battery-data")
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    bundled_db = BUNDLED_DATA_DIR / "market.db"
+    runtime_db = DATA_DIR / "market.db"
+    if bundled_db.exists() and not runtime_db.exists():
+        shutil.copy(bundled_db, runtime_db)
+else:
+    DATA_DIR = BUNDLED_DATA_DIR
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+
 DB_PATH = DATA_DIR / "market.db"
 
 # Athens, Greece — used for the Greek battery's local weather forecast.
