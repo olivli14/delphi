@@ -15,6 +15,7 @@ import {
   formatTimeOfDay,
   ScenarioResult,
 } from "../types";
+import InfoPopover from "./InfoPopover";
 
 interface Props {
   scenarios: Record<"p10" | "p50" | "p90", ScenarioResult>;
@@ -58,8 +59,28 @@ export default function ScenarioChart({ scenarios }: Props) {
     <div className="card">
       <div className="flex items-baseline justify-between flex-wrap gap-2">
         <div>
-          <h3 className="section-title">Scenario P&L trajectory</h3>
-          <p className="text-xs text-slate-500 -mt-2 font-mono">
+          <div className="flex items-center gap-2">
+            <h3 className="section-title mb-0">Scenario P&L trajectory</h3>
+            <InfoPopover title="Scenario P&L">
+              <p>
+                Cumulative net P&L (€) over the day, computed for each price
+                scenario from the forecaster: <strong>p10</strong>{" "}
+                (pessimistic), <strong>p50</strong> (median), and{" "}
+                <strong>p90</strong> (optimistic).
+              </p>
+              <p>
+                Each line answers: &quot;if the day&apos;s prices land at this
+                quantile, what does the schedule earn after degradation?&quot;
+                The spread between p10 and p90 is the day&apos;s revenue
+                risk band.
+              </p>
+              <p>
+                A flat segment means the battery sat idle (no profitable
+                arbitrage); a steep climb is a discharge into a price spike.
+              </p>
+            </InfoPopover>
+          </div>
+          <p className="text-xs text-slate-500 mt-1 font-mono">
             Cumulative net P&L across the day for each price scenario
           </p>
         </div>

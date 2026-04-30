@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import BatterySchedule from "./components/BatterySchedule";
+import DataMap from "./components/DataMap";
 import Header from "./components/Header";
 import KPICards from "./components/KPICards";
+import LoadingOverlay from "./components/LoadingOverlay";
 import PriceForecast from "./components/PriceForecast";
 import ScenarioChart from "./components/ScenarioChart";
 import ScheduleTable from "./components/ScheduleTable";
@@ -16,6 +18,7 @@ const API_URL = "/api/optimize";
 export default function Page() {
   const [data, setData] = useState<OptimizationResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [usingSeed, setUsingSeed] = useState(true);
 
@@ -32,7 +35,9 @@ export default function Page() {
 
   const runOptimization = async () => {
     setLoading(true);
+    setFinished(false);
     setError(null);
+    const startedAt = performance.now();
     try {
       const r = await fetch(API_URL, { cache: "no-store" });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -46,7 +51,15 @@ export default function Page() {
           : "Live optimisation failed. Showing seed result.",
       );
     } finally {
-      setLoading(false);
+      // Hold the overlay open long enough for the narration to land — at
+      // least 4.5s — then flash a "complete" state for ~700ms before closing.
+      const elapsed = performance.now() - startedAt;
+      const minDuration = 4500;
+      const wait = Math.max(0, minDuration - elapsed);
+      setTimeout(() => {
+        setFinished(true);
+        setTimeout(() => setLoading(false), 700);
+      }, wait);
     }
   };
 
@@ -63,6 +76,8 @@ export default function Page() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
+      <LoadingOverlay open={loading} finished={finished} />
+
       <Header
         generatedAt={data.generated_at}
         targetDay={data.target_day}
@@ -102,6 +117,10 @@ export default function Page() {
 
       <section className="mt-6">
         <ScheduleTable schedule={data.schedule} />
+      </section>
+
+      <section className="mt-6">
+        <DataMap />
       </section>
 
       <section className="mt-6">

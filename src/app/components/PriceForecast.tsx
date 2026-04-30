@@ -15,6 +15,7 @@ import {
   formatTimeOfDay,
   PriceForecast as PriceForecastT,
 } from "../types";
+import InfoPopover from "./InfoPopover";
 
 interface Props {
   forecast: PriceForecastT;
@@ -34,8 +35,27 @@ export default function PriceForecast({ forecast }: Props) {
     <div className="card">
       <div className="flex items-baseline justify-between flex-wrap gap-2">
         <div>
-          <h3 className="section-title">Price forecast</h3>
-          <p className="text-xs text-slate-500 -mt-2 font-mono">
+          <div className="flex items-center gap-2">
+            <h3 className="section-title mb-0">Price forecast</h3>
+            <InfoPopover title="Price forecast">
+              <p>
+                Probabilistic day-ahead price forecast for the Greek market
+                (HEnEx), 96 quarter-hour delivery periods. Y-axis is{" "}
+                <strong>€/MWh</strong>; X-axis is delivery time (UTC).
+              </p>
+              <p>
+                The cyan line is the <strong>p50 (median)</strong> expected
+                price. The shaded blue band spans <strong>p10 → p90</strong>{" "}
+                — the 80% confidence interval from the quantile regressor.
+              </p>
+              <p>
+                A wide band means the model is uncertain (often around dawn
+                ramp-up and evening peak). The optimizer uses all three
+                quantiles to stress-test the schedule.
+              </p>
+            </InfoPopover>
+          </div>
+          <p className="text-xs text-slate-500 mt-1 font-mono">
             DAM €/MWh · 96 × 15-minute periods · model{" "}
             <span className="text-accent-neon">{forecast.model}</span>
           </p>

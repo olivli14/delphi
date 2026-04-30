@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatTimeOfDay, ScheduleRow } from "../types";
+import InfoPopover from "./InfoPopover";
 
 interface Props {
   schedule: ScheduleRow[];
@@ -28,8 +29,27 @@ export default function BatterySchedule({ schedule, capacityMwh }: Props) {
 
   return (
     <div className="card">
-      <h3 className="section-title">Battery schedule</h3>
-      <p className="text-xs text-slate-500 -mt-2 font-mono">
+      <div className="flex items-center gap-2">
+        <h3 className="section-title mb-0">Battery schedule</h3>
+        <InfoPopover title="Battery schedule" align="right">
+          <p>
+            The MILP solver&apos;s optimal dispatch for the day. Bars below
+            zero are <strong className="text-accent-electric">charge</strong>{" "}
+            (buying energy); bars above zero are{" "}
+            <strong className="text-accent-green">discharge</strong> (selling).
+          </p>
+          <p>
+            The amber line is <strong>state of charge</strong> (right axis,
+            0–100%). Watch it climb during cheap hours and drain during peak
+            hours — that&apos;s the arbitrage.
+          </p>
+          <p>
+            Bound by the thermal envelope, round-trip efficiency, daily cycle
+            cap, and a terminal SoC reserve.
+          </p>
+        </InfoPopover>
+      </div>
+      <p className="text-xs text-slate-500 mt-1 font-mono">
         Charge (negative) · Discharge (positive) · SoC overlay · capacity{" "}
         {capacityMwh.toFixed(0)} MWh
       </p>

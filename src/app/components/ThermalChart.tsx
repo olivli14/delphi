@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatTimeOfDay, ThermalPeriod } from "../types";
+import InfoPopover from "./InfoPopover";
 
 interface Props {
   periods: ThermalPeriod[];
@@ -26,8 +27,28 @@ export default function ThermalChart({ periods }: Props) {
 
   return (
     <div className="card">
-      <h3 className="section-title">Thermal envelope</h3>
-      <p className="text-xs text-slate-500 -mt-2 font-mono">
+      <div className="flex items-center gap-2">
+        <h3 className="section-title mb-0">Thermal envelope</h3>
+        <InfoPopover title="Thermal envelope">
+          <p>
+            How hot it is outside changes how hard the battery can push
+            charge or discharge. Above 25°C, available power derates by{" "}
+            <strong>1% per °C</strong> to keep the cells inside their safe
+            operating window.
+          </p>
+          <p>
+            The blue line is the per-period <strong>max charge MW</strong>;
+            the dashed green line is <strong>max discharge MW</strong>. The
+            rose line is the <strong>Athens ambient temperature</strong>{" "}
+            forecast (right axis, °C).
+          </p>
+          <p>
+            On hot afternoons you&apos;ll see the power ceiling drop right when
+            prices peak — a real constraint on revenue capture.
+          </p>
+        </InfoPopover>
+      </div>
+      <p className="text-xs text-slate-500 mt-1 font-mono">
         Power derate · 1% / °C above 25°C · ambient temperature overlay
       </p>
 
