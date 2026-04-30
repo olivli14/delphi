@@ -26,7 +26,7 @@ function Card({ label, value, hint, accent }: CardProps) {
       />
       <div className="kpi-label">{label}</div>
       <div className="kpi-value mt-2">{value}</div>
-      {hint ? <div className="text-xs text-slate-400 mt-1">{hint}</div> : null}
+      {hint ? <div className="text-xs text-slate-600 mt-1">{hint}</div> : null}
     </div>
   );
 }
@@ -43,25 +43,25 @@ export default function KPICards({
         label="Total Revenue"
         value={formatEur(totalRevenue, 0)}
         hint="Discharge − charge × DAM price"
-        accent="linear-gradient(90deg, #ff7d00, #ffecd1)"
+        accent="linear-gradient(90deg, #0369a1, #0ea5e9)"
       />
       <Card
         label="Net P&L"
         value={formatEur(netPnl, 0)}
         hint="After degradation cost"
-        accent="linear-gradient(90deg, #ffecd1, #3fb8c4)"
+        accent="linear-gradient(90deg, #0ea5e9, #0d9488)"
       />
       <Card
         label="Cycles"
         value={cycles.toFixed(2)}
         hint="Equivalent full cycles / day"
-        accent="linear-gradient(90deg, #3fb8c4, #ffecd1)"
+        accent="linear-gradient(90deg, #0d9488, #0ea5e9)"
       />
       <Card
         label="Degradation"
         value={formatEur(totalDegradation, 0)}
         hint="€/MWh throughput cost"
-        accent="linear-gradient(90deg, #ff7d00, #78290f)"
+        accent="linear-gradient(90deg, #b45309, #b91c1c)"
       />
     </section>
   );

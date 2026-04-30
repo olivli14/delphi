@@ -65,7 +65,7 @@ export default function Page() {
 
   if (!data) {
     return (
-      <main className="min-h-screen grid place-items-center text-slate-400">
+      <main className="min-h-screen grid place-items-center text-slate-700">
         {error ? error : "Loading seed data…"}
       </main>
     );
@@ -86,14 +86,14 @@ export default function Page() {
       />
 
       {usingSeed && (
-        <div className="mb-4 rounded-xl border border-accent-electric/30 bg-accent-electric/5 px-4 py-2 text-xs text-slate-300 font-mono">
+        <div className="mb-4 rounded-xl border border-accent-electric/30 bg-accent-electric/5 px-4 py-2 text-xs text-slate-700 font-mono">
           Showing pre-computed seed result · click <strong>Run Optimization</strong>{" "}
           to recompute against the live pipeline.
         </div>
       )}
 
       {error && (
-        <div className="mb-4 rounded-xl border border-accent-rose/30 bg-accent-rose/10 px-4 py-2 text-xs text-accent-rose font-mono">
+        <div className="mb-4 rounded-xl border border-accent-rose/40 bg-accent-rose/10 px-4 py-2 text-xs text-accent-rose font-mono">
           {error}
         </div>
       )}
@@ -126,11 +126,11 @@ export default function Page() {
       <section className="mt-6">
         <div className="card">
           <h3 className="section-title">Data provenance</h3>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono text-slate-400">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono text-slate-700">
             {ingestion.map((c) => (
               <li
                 key={c.name}
-                className="flex justify-between border-b border-navy-700/40 py-1.5"
+                className="flex justify-between border-b border-navy-700/60 py-1.5"
               >
                 <span className="truncate">{c.name}</span>
                 <span
@@ -152,11 +152,11 @@ export default function Page() {
         </div>
       </section>
 
-      <footer className="mt-8 text-center text-[11px] text-slate-500 font-mono">
+      <footer className="mt-8 text-center text-[11px] text-slate-600 font-mono">
         Solver status:{" "}
-        <span className="text-slate-300">{data.summary.solver_status}</span> ·
+        <span className="text-navy-950 font-semibold">{data.summary.solver_status}</span> ·
         objective {data.summary.objective_value.toFixed(2)} · forecast model{" "}
-        <span className="text-slate-300">{data.forecast.model}</span>
+        <span className="text-navy-950 font-semibold">{data.forecast.model}</span>
       </footer>
     </main>
   );

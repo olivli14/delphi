@@ -107,30 +107,30 @@ export default function LoadingOverlay({ open, finished }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-navy-950/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 grid place-items-center bg-navy-950/40 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Optimization in progress"
     >
-      <div className="w-[min(560px,92vw)] rounded-2xl border border-navy-600 bg-navy-900/95 shadow-glow p-6">
+      <div className="w-[min(560px,92vw)] rounded-2xl border border-navy-700 bg-white shadow-glow p-6">
         <div className="flex items-center gap-3">
           <span className="relative inline-flex h-3 w-3">
             <span className="absolute inline-flex h-full w-full rounded-full bg-accent-electric opacity-60 animate-ping" />
             <span className="relative inline-flex h-3 w-3 rounded-full bg-accent-electric" />
           </span>
-          <h2 className="text-base md:text-lg font-semibold text-white tracking-tight">
+          <h2 className="text-base md:text-lg font-semibold text-navy-950 tracking-tight">
             {finished ? "Optimization complete" : "Optimizing day-ahead schedule"}
           </h2>
-          <span className="ml-auto text-[11px] font-mono text-slate-500">
+          <span className="ml-auto text-[11px] font-mono text-slate-600">
             {elapsed.toFixed(1)}s
           </span>
         </div>
 
-        <p className="mt-1 text-xs text-slate-400 font-mono">
+        <p className="mt-1 text-xs text-slate-600 font-mono">
           Live pipeline · Athens (Greece) · 96 × 15-minute delivery periods
         </p>
 
-        <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-navy-700">
+        <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-navy-800">
           <div
             className="h-full bg-gradient-to-r from-accent-electric via-accent-neon to-accent-green transition-all duration-300 ease-out"
             style={{ width: `${progressPct}%` }}
@@ -153,9 +153,9 @@ export default function LoadingOverlay({ open, finished }: Props) {
                     className={[
                       "text-sm font-medium",
                       state === "done"
-                        ? "text-slate-300"
+                        ? "text-slate-700"
                         : state === "active"
-                          ? "text-white"
+                          ? "text-navy-950 font-semibold"
                           : "text-slate-500",
                     ].join(" ")}
                   >
@@ -164,7 +164,7 @@ export default function LoadingOverlay({ open, finished }: Props) {
                   <div
                     className={[
                       "text-[11px] font-mono mt-0.5",
-                      state === "pending" ? "text-slate-600" : "text-slate-500",
+                      state === "pending" ? "text-slate-400" : "text-slate-600",
                     ].join(" ")}
                   >
                     {s.detail}
@@ -195,7 +195,7 @@ function StepIcon({ state }: { state: "done" | "active" | "pending" }) {
     );
   }
   return (
-    <span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full border border-navy-600 bg-navy-800 text-[11px] text-slate-600">
+    <span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full border border-navy-700 bg-navy-800 text-[11px] text-slate-500">
       •
     </span>
   );

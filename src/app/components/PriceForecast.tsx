@@ -55,12 +55,12 @@ export default function PriceForecast({ forecast }: Props) {
               </p>
             </InfoPopover>
           </div>
-          <p className="text-xs text-slate-500 mt-1 font-mono">
+          <p className="text-xs text-slate-600 mt-1 font-mono">
             DAM €/MWh · 96 × 15-minute periods · model{" "}
-            <span className="text-accent-neon">{forecast.model}</span>
+            <span className="text-accent-electric font-semibold">{forecast.model}</span>
           </p>
         </div>
-        <span className="text-[11px] uppercase tracking-widest text-slate-400">
+        <span className="text-[11px] uppercase tracking-widest text-slate-600 font-semibold">
           p10 · p50 · p90
         </span>
       </div>
@@ -70,27 +70,27 @@ export default function PriceForecast({ forecast }: Props) {
           <ComposedChart data={data} margin={{ top: 10, left: -10, right: 10, bottom: 0 }}>
             <defs>
               <linearGradient id="bandFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#ff7d00" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#ff7d00" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0.05} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="#15616d" strokeDasharray="3 3" />
+            <CartesianGrid stroke="#cfe1ee" strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#a89a85", fontSize: 11 }}
+              tick={{ fill: "#475569", fontSize: 11 }}
               interval={11}
             />
             <YAxis
-              tick={{ fill: "#a89a85", fontSize: 11 }}
+              tick={{ fill: "#475569", fontSize: 11 }}
               tickFormatter={(v) => `€${v.toFixed(0)}`}
               domain={["auto", "auto"]}
             />
             <Tooltip
               contentStyle={{
-                background: "#03212e",
-                border: "1px solid #1f7e8a",
+                background: "#ffffff",
+                border: "1px solid #cfe1ee",
                 borderRadius: 12,
-                color: "#ffecd1",
+                color: "#0b2545",
                 fontSize: 12,
               }}
               formatter={(value: number, name: string) => [
@@ -98,7 +98,7 @@ export default function PriceForecast({ forecast }: Props) {
                 name,
               ]}
             />
-            <Legend wrapperStyle={{ color: "#a89a85", fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: "#475569", fontSize: 12 }} />
             <Area
               type="monotone"
               dataKey="bandLow"
@@ -120,7 +120,7 @@ export default function PriceForecast({ forecast }: Props) {
             <Line
               type="monotone"
               dataKey="p50"
-              stroke="#ffecd1"
+              stroke="#0369a1"
               strokeWidth={2}
               dot={false}
               name="p50 (median)"

@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Greek Battery Optimizer",
+  title: "Delphi Prediction",
   description:
     "Day-ahead battery scheduling for the Greek electricity market — probabilistic price forecasting, thermal-aware MILP optimization.",
 };

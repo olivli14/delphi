@@ -107,11 +107,11 @@ export default function DataMap() {
           </p>
         </InfoPopover>
       </div>
-      <p className="text-xs text-slate-500 mt-1 font-mono">
+      <p className="text-xs text-slate-600 mt-1 font-mono">
         1 primary market · 3 analogue feeds · hover a marker for detail
       </p>
 
-      <div className="mt-3 relative rounded-xl border border-navy-700 bg-navy-950/60 overflow-hidden">
+      <div className="mt-3 relative rounded-xl border border-navy-700 bg-navy-800 overflow-hidden">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="w-full h-auto block"
@@ -126,15 +126,15 @@ export default function DataMap() {
               height="18"
               patternUnits="userSpaceOnUse"
             >
-              <circle cx="1" cy="1" r="0.6" fill="#1f7e8a" />
+              <circle cx="1" cy="1" r="0.6" fill="#94b8ce" />
             </pattern>
             <radialGradient id="primaryGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffecd1" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#ffecd1" stopOpacity="0" />
+              <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0" />
             </radialGradient>
             <radialGradient id="analogueGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ff7d00" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#ff7d00" stopOpacity="0" />
+              <stop offset="0%" stopColor="#0369a1" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#0369a1" stopOpacity="0" />
             </radialGradient>
           </defs>
 
@@ -147,7 +147,7 @@ export default function DataMap() {
               x2={W}
               y1={y}
               y2={y}
-              stroke="#15616d"
+              stroke="#cfe1ee"
               strokeDasharray="2 6"
               strokeWidth="1"
             />
@@ -159,7 +159,7 @@ export default function DataMap() {
               y2={H}
               x1={x}
               x2={x}
-              stroke="#15616d"
+              stroke="#cfe1ee"
               strokeDasharray="2 6"
               strokeWidth="1"
             />
@@ -169,8 +169,8 @@ export default function DataMap() {
             <path
               key={i}
               d={d}
-              fill="#0a3a48"
-              stroke="#1f7e8a"
+              fill="#dceaf3"
+              stroke="#94b8ce"
               strokeWidth="1.2"
               strokeLinejoin="round"
             />
@@ -185,7 +185,7 @@ export default function DataMap() {
                 y1={ay}
                 x2={x}
                 y2={y}
-                stroke="#ffecd1"
+                stroke="#0369a1"
                 strokeOpacity="0.45"
                 strokeWidth="1"
                 strokeDasharray="4 4"
@@ -197,7 +197,7 @@ export default function DataMap() {
             const [x, y] = project(c.lon, c.lat);
             const isPrimary = c.role === "primary";
             const r = isPrimary ? 6 : 4.5;
-            const fill = isPrimary ? "#ffecd1" : "#ff7d00";
+            const fill = isPrimary ? "#0ea5e9" : "#0369a1";
             const glowFill = isPrimary
               ? "url(#primaryGlow)"
               : "url(#analogueGlow)";
@@ -216,7 +216,7 @@ export default function DataMap() {
                   cy={y}
                   r={r}
                   fill={fill}
-                  stroke="#03212e"
+                  stroke="#ffffff"
                   strokeWidth="1.5"
                 />
                 {isPrimary && (
@@ -225,7 +225,7 @@ export default function DataMap() {
                     cy={y}
                     r={r + 4}
                     fill="none"
-                    stroke="#ffecd1"
+                    stroke="#0ea5e9"
                     strokeWidth="1"
                     opacity="0.7"
                   >
@@ -247,11 +247,11 @@ export default function DataMap() {
                   x={x + labelDx}
                   y={y + 4}
                   textAnchor={labelAnchor}
-                  fill="#ffecd1"
+                  fill="#0b2545"
                   fontSize="11"
                   fontFamily="JetBrains Mono, ui-monospace, monospace"
                   style={{ paintOrder: "stroke" }}
-                  stroke="#001524"
+                  stroke="#ffffff"
                   strokeWidth="3"
                   strokeLinejoin="round"
                 >
@@ -263,7 +263,7 @@ export default function DataMap() {
         </svg>
 
         {hover && (
-          <div className="absolute left-3 bottom-3 max-w-[78%] rounded-xl border border-navy-600 bg-navy-900/95 backdrop-blur p-3 text-xs text-slate-300 shadow-glow pointer-events-none">
+          <div className="absolute left-3 bottom-3 max-w-[78%] rounded-xl border border-navy-700 bg-white p-3 text-xs text-slate-700 shadow-glow pointer-events-none">
             {(() => {
               const c = CITIES.find((x) => x.id === hover)!;
               return (
@@ -277,12 +277,12 @@ export default function DataMap() {
                           : "bg-accent-electric",
                       ].join(" ")}
                     />
-                    <span className="font-semibold text-white">{c.name}</span>
-                    <span className="text-slate-500 font-mono">
+                    <span className="font-semibold text-navy-950">{c.name}</span>
+                    <span className="text-slate-600 font-mono">
                       · {c.market}
                     </span>
                   </div>
-                  <p className="mt-1.5 text-slate-300/90 leading-relaxed">
+                  <p className="mt-1.5 text-slate-700 leading-relaxed">
                     {c.blurb}
                   </p>
                   <div className="mt-1.5 text-[10px] font-mono text-slate-500">
@@ -299,7 +299,7 @@ export default function DataMap() {
         {CITIES.map((c) => (
           <li
             key={c.id}
-            className="flex items-center gap-2 text-slate-400 border-b border-navy-700/40 py-1"
+            className="flex items-center gap-2 text-slate-700 border-b border-navy-700/60 py-1"
             onMouseEnter={() => setHover(c.id)}
             onMouseLeave={() => setHover(null)}
           >
@@ -309,9 +309,9 @@ export default function DataMap() {
                 c.role === "primary" ? "bg-accent-neon" : "bg-accent-electric",
               ].join(" ")}
             />
-            <span className="text-slate-200">{c.name}</span>
-            <span className="text-slate-500">· {c.market}</span>
-            <span className="ml-auto text-[10px] uppercase tracking-widest text-slate-600">
+            <span className="text-navy-950 font-semibold">{c.name}</span>
+            <span className="text-slate-600">· {c.market}</span>
+            <span className="ml-auto text-[10px] uppercase tracking-widest text-slate-500">
               {c.role === "primary" ? "primary" : "analogue"}
             </span>
           </li>

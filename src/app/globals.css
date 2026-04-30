@@ -3,30 +3,30 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html, body {
-  background: radial-gradient(circle at 20% 0%, #0a3a48 0%, #001524 60%);
-  color: #ffecd1;
+  background: radial-gradient(circle at 20% 0%, #e6f2fb 0%, #f7fbfd 60%);
+  color: #0b2545;
   min-height: 100vh;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 .card {
-  @apply rounded-2xl border border-navy-700 bg-navy-900/70 backdrop-blur-md p-5 shadow-glow;
+  @apply rounded-2xl border border-navy-700 bg-white p-5 shadow-glow;
 }
 
 .kpi-value {
-  @apply text-2xl md:text-3xl font-semibold tracking-tight text-white;
+  @apply text-2xl md:text-3xl font-semibold tracking-tight text-navy-950;
 }
 
 .kpi-label {
-  @apply text-xs uppercase tracking-widest text-slate-400;
+  @apply text-xs uppercase tracking-widest text-slate-600 font-semibold;
 }
 
 .section-title {
-  @apply text-sm uppercase tracking-[0.18em] text-slate-400 mb-3;
+  @apply text-sm uppercase tracking-[0.18em] text-slate-700 mb-3 font-semibold;
 }
 
 .scroll-soft::-webkit-scrollbar {
@@ -34,7 +34,7 @@ html, body {
   height: 8px;
 }
 .scroll-soft::-webkit-scrollbar-thumb {
-  background: rgba(255, 125, 0, 0.35);
+  background: rgba(14, 165, 233, 0.4);
   border-radius: 9999px;
 }
 .scroll-soft::-webkit-scrollbar-track {

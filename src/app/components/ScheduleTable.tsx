@@ -17,9 +17,9 @@ interface Props {
 }
 
 const ACTION_STYLES: Record<ScheduleRow["action"], string> = {
-  charge: "bg-accent-electric/15 text-accent-electric border-accent-electric/30",
-  discharge: "bg-accent-green/15 text-accent-green border-accent-green/30",
-  idle: "bg-slate-700/40 text-slate-400 border-slate-600/40",
+  charge: "bg-accent-electric/10 text-accent-electric border-accent-electric/40",
+  discharge: "bg-accent-green/10 text-accent-green border-accent-green/40",
+  idle: "bg-slate-200 text-slate-600 border-slate-300",
 };
 
 export default function ScheduleTable({ schedule }: Props) {
@@ -54,7 +54,7 @@ export default function ScheduleTable({ schedule }: Props) {
     <div className="card overflow-hidden">
       <div className="flex items-baseline justify-between mb-2">
         <h3 className="section-title mb-0">Schedule (96 periods)</h3>
-        <span className="text-xs text-slate-500 font-mono">
+        <span className="text-xs text-slate-600 font-mono">
           Click headers to sort
         </span>
       </div>
@@ -62,7 +62,7 @@ export default function ScheduleTable({ schedule }: Props) {
       <div className="max-h-[460px] overflow-auto scroll-soft rounded-xl border border-navy-700">
         <table className="w-full text-sm">
           <thead className="sticky top-0 bg-navy-800 backdrop-blur z-10">
-            <tr className="text-left text-xs uppercase tracking-widest text-slate-400">
+            <tr className="text-left text-xs uppercase tracking-widest text-slate-700 font-semibold">
               <Th onClick={() => click("period_index")} arrow={arrow("period_index")}>
                 #
               </Th>
@@ -111,9 +111,9 @@ export default function ScheduleTable({ schedule }: Props) {
             {sorted.map((r) => (
               <tr
                 key={r.period_index}
-                className="odd:bg-navy-900/40 hover:bg-navy-700/30 border-t border-navy-700/40 transition-colors"
+                className="odd:bg-navy-800/40 hover:bg-accent-electric/10 border-t border-navy-700/60 transition-colors text-navy-950"
               >
-                <td className="px-3 py-2 text-slate-400 font-mono">
+                <td className="px-3 py-2 text-slate-600 font-mono">
                   {r.period_index.toString().padStart(2, "0")}
                 </td>
                 <td className="px-3 py-2 font-mono">
@@ -172,13 +172,13 @@ function Th({
       onClick={onClick}
       className={[
         "px-3 py-2 select-none",
-        onClick ? "cursor-pointer hover:text-white" : "",
+        onClick ? "cursor-pointer hover:text-navy-950" : "",
         className ?? "",
       ].join(" ")}
     >
       <span className="inline-flex items-center gap-1">
         {children}
-        {arrow ? <span className="text-accent-neon">{arrow}</span> : null}
+        {arrow ? <span className="text-accent-electric">{arrow}</span> : null}
       </span>
     </th>
   );
