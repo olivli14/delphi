@@ -1,14 +1,15 @@
 """
 Module 2 — Probabilistic Price Forecasting
 
-Trains a LightGBM quantile regression model on the multi-market dataset
-assembled by the ingestion module and produces a 96-period (15-minute)
-forecast with 10th, 50th and 90th percentile bands.
+Trains a gradient-boosted quantile regression model (scikit-learn's
+HistGradientBoostingRegressor with `loss="quantile"`) on the multi-market
+dataset assembled by the ingestion module and produces a 96-period
+(15-minute) forecast with 10th, 50th and 90th percentile bands.
 
-If LightGBM is not installed the module falls back to a quantile gradient-
-boosting forecast built on top of `numpy` percentiles of analogous historical
-periods — same input/output shape, slightly less expressive, but always
-available so the optimizer can still run end-to-end.
+If scikit-learn is not installed the module falls back to a ridge
+regression with empirical residual quantiles stratified by period-of-day —
+same input/output shape, less expressive, but always available so the
+optimizer can still run end-to-end.
 """
 
 from __future__ import annotations
@@ -23,13 +24,13 @@ import numpy as np
 from . import ingest
 
 try:
-    import lightgbm as lgb
-    HAVE_LGBM = True
-    LGBM_ERROR = ""
+    from sklearn.ensemble import HistGradientBoostingRegressor
+    HAVE_HGB = True
+    HGB_ERROR = ""
 except Exception as _e:
-    lgb = None  # type: ignore
-    HAVE_LGBM = False
-    LGBM_ERROR = f"{type(_e).__name__}: {_e}"
+    HistGradientBoostingRegressor = None  # type: ignore
+    HAVE_HGB = False
+    HGB_ERROR = f"{type(_e).__name__}: {_e}"
 
 
 @dataclass
@@ -131,21 +132,18 @@ def _build_target_features(target_day: datetime, history: Sequence[dict],
 # --------------------------------------------------------------------------- #
 #  Model variants                                                              #
 # --------------------------------------------------------------------------- #
-def _train_lgb_quantile(X: np.ndarray, y: np.ndarray, alpha: float):
-    train_set = lgb.Dataset(X, label=y, feature_name=FEATURE_COLS)
-    params = {
-        "objective": "quantile",
-        "alpha": alpha,
-        "metric": "quantile",
-        "learning_rate": 0.05,
-        "num_leaves": 31,
-        "min_data_in_leaf": 12,
-        "feature_fraction": 0.9,
-        "bagging_fraction": 0.85,
-        "bagging_freq": 4,
-        "verbose": -1,
-    }
-    return lgb.train(params, train_set, num_boost_round=300)
+def _train_hgb_quantile(X: np.ndarray, y: np.ndarray, alpha: float):
+    model = HistGradientBoostingRegressor(
+        loss="quantile",
+        quantile=alpha,
+        learning_rate=0.05,
+        max_iter=300,
+        max_leaf_nodes=31,
+        min_samples_leaf=12,
+        l2_regularization=0.0,
+    )
+    model.fit(X, y)
+    return model
 
 
 def _quantile_residual_fallback(X: np.ndarray, y: np.ndarray,
@@ -198,18 +196,18 @@ def forecast_for_day(target_day: datetime,
     X_train, y_train, _ = _build_dataset(history)
     X_target, timestamps = _build_target_features(target_day, history, target_weather)
 
-    if HAVE_LGBM and X_train.shape[0] >= 200:
-        model_p10 = _train_lgb_quantile(X_train, y_train, alpha=0.10)
-        model_p50 = _train_lgb_quantile(X_train, y_train, alpha=0.50)
-        model_p90 = _train_lgb_quantile(X_train, y_train, alpha=0.90)
+    if HAVE_HGB and X_train.shape[0] >= 200:
+        model_p10 = _train_hgb_quantile(X_train, y_train, alpha=0.10)
+        model_p50 = _train_hgb_quantile(X_train, y_train, alpha=0.50)
+        model_p90 = _train_hgb_quantile(X_train, y_train, alpha=0.90)
         p10 = model_p10.predict(X_target)
         p50 = model_p50.predict(X_target)
         p90 = model_p90.predict(X_target)
-        model_name = "lightgbm-quantile"
+        model_name = "sklearn-hgb-quantile"
     else:
         p10, p50, p90 = _quantile_residual_fallback(X_train, y_train, X_target)
-        if not HAVE_LGBM:
-            reason = f"lgbm unavailable — {LGBM_ERROR}"
+        if not HAVE_HGB:
+            reason = f"sklearn unavailable — {HGB_ERROR}"
         else:
             reason = f"insufficient training rows ({X_train.shape[0]}<200)"
         model_name = f"ridge+empirical-quantile ({reason})"
