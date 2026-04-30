@@ -48,6 +48,7 @@ export interface ScenarioResult {
 export interface OptimizationResult {
   generated_at: string;
   target_day: string;
+  run_type?: "seed" | "computed";
   ingestion: {
     target_day: string;
     components: {

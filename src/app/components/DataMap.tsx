@@ -40,7 +40,7 @@ const CITIES: City[] = [
     lat: 36.78,
     lon: -119.42,
     blurb:
-      "High solar share, sharp evening ramps — analogue for duck-curve arbitrage patterns.",
+      "Reference market shown for context. Its weather series is ingested; the current forecaster does not train directly on CAISO prices.",
   },
   {
     id: "omie",
@@ -50,7 +50,7 @@ const CITIES: City[] = [
     lat: 40.42,
     lon: -3.7,
     blurb:
-      "Mediterranean climate twin. Similar solar/load shape; closest weather analogue to Athens.",
+      "Reference market shown for context. Its weather is a useful climate comparison to Athens, but not a separate price-training feed in the current code.",
   },
   {
     id: "entsoe_de",
@@ -60,7 +60,7 @@ const CITIES: City[] = [
     lat: 51.17,
     lon: 10.45,
     blurb:
-      "Deepest, most liquid European DAM. Anchors the cross-market price training set.",
+      "Reference market shown for context. Germany is displayed because it is part of the demo's reference-market story, not because German DAM prices are directly fitted in the current model.",
   },
 ];
 
@@ -96,19 +96,21 @@ export default function DataMap() {
         <h3 className="section-title mb-0">Data sources · reference markets</h3>
         <InfoPopover title="Reference markets">
           <p>
-            Greek DAM history is short and noisy. To make the price forecaster
-            generalise, we enrich training with mature, structurally similar
-            markets and combine them with Athens-local weather signals.
+            The live pipeline fetches Greek DAM prices plus weather for Athens
+            and several reference geographies. In the current implementation,
+            the forecaster trains on Greek DAM history joined with
+            Athens-local weather features.
           </p>
           <p>
             <strong className="text-accent-electric">Athens</strong> is the
-            target — that&apos;s where the battery sits. The dashed lines show
-            the analogue feeds wired into the model.
+            target market and battery location. The dashed lines mark reference
+            markets shown in the UI; they are not evidence of cross-market
+            price training by themselves.
           </p>
         </InfoPopover>
       </div>
       <p className="text-xs text-slate-600 mt-1 font-mono">
-        1 primary market · 3 analogue feeds · hover a marker for detail
+        1 target market · 3 reference markets · hover a marker for detail
       </p>
 
       <div className="mt-3 relative rounded-xl border border-navy-700 bg-navy-800 overflow-hidden">
@@ -312,7 +314,7 @@ export default function DataMap() {
             <span className="text-navy-950 font-semibold">{c.name}</span>
             <span className="text-slate-600">· {c.market}</span>
             <span className="ml-auto text-[10px] uppercase tracking-widest text-slate-500">
-              {c.role === "primary" ? "primary" : "analogue"}
+              {c.role === "primary" ? "primary" : "reference"}
             </span>
           </li>
         ))}

@@ -25,7 +25,10 @@ export default function Page() {
   useEffect(() => {
     fetch(SEED_URL)
       .then((r) => r.json())
-      .then((j) => setData(j as OptimizationResult))
+      .then((j) => {
+        const seedData = j as OptimizationResult;
+        setData({ ...seedData, run_type: "seed" });
+      })
       .catch(() =>
         setError(
           "Could not load seed data. Run `python -m backend.seed_data` to regenerate.",
@@ -42,7 +45,7 @@ export default function Page() {
       const r = await fetch(API_URL, { cache: "no-store" });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const j = (await r.json()) as OptimizationResult;
-      setData(j);
+      setData({ ...j, run_type: "computed" });
       setUsingSeed(false);
     } catch (e: unknown) {
       setError(
@@ -73,6 +76,20 @@ export default function Page() {
 
   const ingestion = data.ingestion?.components ?? [];
   const anySynthetic = ingestion.some((c) => c.synthetic);
+  const runType =
+    data.run_type ?? (usingSeed ? "seed" : "computed");
+  const runTypeLabel =
+    runType === "seed" ? "showing precomputed seed output" : "showing freshly computed output";
+  const damComponent = ingestion.find((c) => c.name === "GR DAM");
+  const greekDamLabel = damComponent
+    ? damComponent.synthetic
+      ? "Greek DAM prices: synthetic fallback"
+      : "Greek DAM prices: live ENTSO-E pull"
+    : "Greek DAM prices: status unavailable";
+  const forecastModelLabel =
+    data.forecast.model.startsWith("sklearn-hgb-quantile")
+      ? "forecast model: scikit-learn HistGradientBoosting quantile regressors"
+      : `forecast model: ${data.forecast.model}`;
 
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -81,14 +98,16 @@ export default function Page() {
       <Header
         generatedAt={data.generated_at}
         targetDay={data.target_day}
+        runTypeLabel={runTypeLabel}
         loading={loading}
         onRun={runOptimization}
       />
 
-      {usingSeed && (
+      {runType === "seed" && (
         <div className="mb-4 rounded-xl border border-accent-electric/30 bg-accent-electric/5 px-4 py-2 text-xs text-slate-700 font-mono">
-          Showing pre-computed seed result · click <strong>Run Optimization</strong>{" "}
-          to recompute against the live pipeline.
+          Showing the bundled seed file from <code>/public/seed_optimization.json</code>.
+          Click <strong>Run Optimization</strong> to call the backend and replace it
+          with a fresh computed run.
         </div>
       )}
 
@@ -104,6 +123,30 @@ export default function Page() {
         cycles={data.summary.cycles}
         totalDegradation={data.summary.total_degradation_eur}
       />
+
+      <section className="mt-6">
+        <div className="card">
+          <h3 className="section-title">Run status</h3>
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs font-mono text-slate-700">
+            <li className="rounded-lg border border-navy-700/60 px-3 py-2">
+              {runTypeLabel}
+            </li>
+            <li
+              className={[
+                "rounded-lg border px-3 py-2",
+                damComponent?.synthetic
+                  ? "border-accent-amber/40 text-accent-amber"
+                  : "border-accent-green/40 text-accent-green",
+              ].join(" ")}
+            >
+              {greekDamLabel}
+            </li>
+            <li className="rounded-lg border border-navy-700/60 px-3 py-2">
+              {forecastModelLabel}
+            </li>
+          </ul>
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
         <PriceForecast forecast={data.forecast} />

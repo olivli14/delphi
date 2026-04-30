@@ -199,8 +199,9 @@ export default function ResearchPage() {
           <li>
             <strong className="text-navy-950">Forecaster.</strong> Athens
             temperature, wind speed, cloud cover, and shortwave radiation are
-            features in the LightGBM quantile price model — operationalising
-            the consumption-side evidence above.
+            features in the implemented price forecaster. In code today that is
+            a scikit-learn `HistGradientBoostingRegressor` quantile setup when
+            available, or a ridge-plus-empirical-quantile fallback otherwise.
           </li>
           <li>
             <strong className="text-navy-950">Thermal envelope.</strong>{" "}
@@ -213,6 +214,13 @@ export default function ResearchPage() {
             promises power the cells can&apos;t deliver on a hot afternoon
             and never ignores a price spike that the weather forecast already
             implied.
+          </li>
+          <li>
+            <strong className="text-navy-950">Reference markets.</strong> The
+            dashboard also shows CAISO, OMIE, and Germany as reference markets.
+            In the current code they are part of the ingestion/provenance story
+            and UI context; they are not direct evidence of cross-market price
+            training.
           </li>
         </ul>
       </section>
